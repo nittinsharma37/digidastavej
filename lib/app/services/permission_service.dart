@@ -42,7 +42,7 @@ class PermissionsService {
       } else if (status.isPermanentlyDenied) {
         _showPermissionPermanentlyDeniedDialog(permission);
       } else if (status.isGranted) {
-        print('${permission.toString()} is granted.');
+        debugPrint('${permission.toString()} is granted.');
       }
     }
   }
@@ -54,7 +54,7 @@ class PermissionsService {
     } else if (status.isPermanentlyDenied) {
       _showPermissionPermanentlyDeniedDialog(permission);
     } else if (status.isGranted) {
-      print('${permission.toString()} is granted.');
+      debugPrint('${permission.toString()} is granted.');
     }
   }
 
@@ -70,13 +70,13 @@ class PermissionsService {
             Get.back(); // Close the dialog
             openAppSettings(); // Open app settings
           },
-          child: Text('Open Settings'),
+          child: const Text('Open Settings'),
         ),
         TextButton(
           onPressed: () {
             Get.back(); // Close the dialog
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
       ],
     );
@@ -94,13 +94,13 @@ class PermissionsService {
             Get.back(); // Close the dialog
             openAppSettings(); // Open app settings
           },
-          child: Text('Open Settings'),
+          child: const Text('Open Settings'),
         ),
         TextButton(
           onPressed: () {
             Get.back(); // Close the dialog
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
       ],
     );

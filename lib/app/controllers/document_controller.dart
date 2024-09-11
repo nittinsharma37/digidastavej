@@ -13,7 +13,7 @@ class DocumentController extends GetxController {
   }
 
   Future<void> fetchDocuments() async {
-    documents.value = await _documentRepository.getAllDocuments();
+    documents.value = _documentRepository.getAllDocuments();
   }
 
   void addDocument(DocumentModel document) {

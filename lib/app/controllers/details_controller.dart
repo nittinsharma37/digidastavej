@@ -25,7 +25,7 @@ class DetailsController extends GetxController {
     if (document.value.documentType == 'video' &&
         document.value.filePath != null) {
       videoController =
-          await VideoPlayerController.file(File(document.value.filePath!))
+          VideoPlayerController.file(File(document.value.filePath!))
             ..initialize().then((_) {
               isVideoInitialised.value = true;
               update();

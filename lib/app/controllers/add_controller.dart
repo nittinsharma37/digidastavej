@@ -148,7 +148,7 @@ class AddController extends GetxController {
 
   void saveDocument() {
     if (formKey.currentState?.validate() ?? false) {
-      print("document type : $filePath");
+      debugPrint("document type : $filePath");
 
       String documentType =
           filePath.value != "" ? getFileType(filePath.value) : "";

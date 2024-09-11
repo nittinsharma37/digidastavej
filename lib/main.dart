@@ -1,5 +1,3 @@
-import 'package:digidastavej/app/services/permission_service.dart';
-
 import 'app/data/models/document_model.dart';
 import 'routes/app_pages.dart';
 import 'package:flutter/material.dart';

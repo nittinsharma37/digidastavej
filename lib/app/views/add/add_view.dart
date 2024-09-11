@@ -76,7 +76,7 @@ class AddView extends StatelessWidget {
                   if (controller.filePath.value.isNotEmpty)
                     Text(
                       'Selected file: ${controller.filePath.value}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Colors.green,
                       ),

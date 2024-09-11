@@ -15,10 +15,13 @@ class HomeView extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.documents.isEmpty) {
-          return const Center(
-            child: Text(
-              'No documents available. Click "+" to add one.',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
+          return const Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: Text(
+                'No documents available. Click "+" to add one.',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
             ),
           );
         }

@@ -1,11 +1,10 @@
 import 'dart:io';
+import 'package:digidastavej/app/controllers/details_controller.dart';
+import 'package:digidastavej/app/data/models/document_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import 'package:audioplayers/audioplayers.dart';
-import '../../controllers/details_controller.dart';
-import '../../data/models/document_model.dart';
 
 class DetailsView extends StatelessWidget {
   DetailsView({super.key});
@@ -14,9 +13,9 @@ class DetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(controller.document.value.title);
-    print(controller.document.value.documentType);
-    print(controller.document.value.filePath);
+    debugPrint(controller.document.value.title);
+    debugPrint(controller.document.value.documentType);
+    debugPrint(controller.document.value.filePath);
     return Scaffold(
       appBar: AppBar(
         title: Obx(() => Text(controller.document.value.title)),
@@ -38,7 +37,7 @@ class DetailsView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Description: ${doc.description ?? "No description"}',
+                  'Description: ${doc.description}',
                   style: const TextStyle(fontSize: 16, color: Colors.grey),
                 ),
               ),
@@ -78,9 +77,9 @@ class DetailsView extends StatelessWidget {
             swipeHorizontal: true,
             pageSnap: true,
             pageFling: true,
-            onRender: (_pages) => print('PDF Rendered'),
-            onError: (error) => print('Error: $error'),
-            onPageError: (page, error) => print('Page error: $error'),
+            onRender: (pages) => debugPrint('PDF Rendered'),
+            onError: (error) => debugPrint('Error: $error'),
+            onPageError: (page, error) => debugPrint('Page error: $error'),
           ),
         );
       case 'image':
