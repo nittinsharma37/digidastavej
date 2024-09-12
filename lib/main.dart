@@ -30,7 +30,7 @@ class DigiDastavejApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return GetMaterialApp(
-        title: 'Digidastavej',
+        title: 'Digidastavej - your own Digital Document Manager!',
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.home,
         getPages: AppPages.pages,

@@ -49,14 +49,14 @@ class HomeView extends StatelessWidget {
         if (controller.documents.isEmpty) {
           return Column(
             children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                color: Theme.of(context).cardTheme.color,
-                child: Text(
-                  'Check out our new features!',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.all(16),
+              //   color: Theme.of(context).cardTheme.color,
+              //   child: Text(
+              //     'Check out our new features!',
+              //     style: Theme.of(context).textTheme.headlineSmall,
+              //   ),
+              // ),
               Expanded(
                 child: Center(
                   child: Padding(
@@ -254,7 +254,7 @@ class HomeView extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 100,
+            height: MediaQuery.of(context).size.height * 0.13,
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
@@ -262,7 +262,7 @@ class HomeView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final document = upcomingExpirations[index];
                 return Container(
-                  width: 250,
+                  width: MediaQuery.of(context).size.width * 0.7,
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   child: Card(
                     color: _getThemeBasedColor(context),
