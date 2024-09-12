@@ -19,13 +19,13 @@
    git clone https://github.com/yourusername/digidastavej.git
 
 
-| ![Page](assets/screenshots/1.jpeg) | ![Page](assets/screenshots/1.jpeg) |
+| ![Page](assets/screenshots/1.jpeg) | ![Page](assets/screenshots/2.jpeg) |
 |------------------------------------------|------------------------------------------------------------|
-| ![Page](assets/screenshots/1.jpeg) | ![Page](assets/screenshots/1.jpeg) |
+| ![Page](assets/screenshots/3.jpeg) | ![Page](assets/screenshots/4.jpeg) |
 |------------------------------------------|------------------------------------------------------------|
-| ![Page](assets/screenshots/1.jpeg) | | ![Page](assets/screenshots/1.jpeg) |
+| ![Page](assets/screenshots/5.jpeg) |  ![Page](assets/screenshots/6.jpeg) |
 |------------------------------------------|------------------------------------------------------------|
-| ![Page](assets/screenshots/1.jpeg) | | 
+| ![Page](assets/screenshots/7.jpeg) |  
 |------------------------------------------|------------------------------------------------------------|
 
 ## Prerequisites
