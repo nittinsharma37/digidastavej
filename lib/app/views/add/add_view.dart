@@ -14,6 +14,7 @@ class AddView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add New Document'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -29,6 +30,9 @@ class AddView extends StatelessWidget {
                     decoration: const InputDecoration(labelText: 'Title'),
                     validator: (value) =>
                         value!.isEmpty ? 'Title is required' : null,
+                  ),
+                  const SizedBox(
+                    height: 12,
                   ),
                   TextFormField(
                     controller: controller.descriptionController,

@@ -10,8 +10,12 @@ class DetailsController extends GetxController {
 
   late VideoPlayerController videoController;
   final AudioPlayer audioPlayer = AudioPlayer();
-  var isAudioPlaying = false.obs;
+  Rx<bool> isAudioPlaying = false.obs;
   Rx<bool> isVideoInitialised = false.obs;
+  Rx<bool> isVideoPlaying = false.obs;
+
+  // Define the audio progress property
+  RxDouble audioProgress = 0.0.obs;
 
   @override
   void onInit() {
@@ -29,7 +33,8 @@ class DetailsController extends GetxController {
             ..initialize().then((_) {
               isVideoInitialised.value = true;
               update();
-              videoController.play();
+              isVideoPlaying.value = true;
+              // videoController.play();
             });
     }
   }
@@ -41,12 +46,27 @@ class DetailsController extends GetxController {
     } else {
       await audioPlayer.play(DeviceFileSource(document.value.filePath!));
       isAudioPlaying.value = true;
+      var duration = await audioPlayer.getDuration();
+
+      // Listen to audio player's position to update the progress
+      audioPlayer.onPositionChanged.listen((Duration position) {
+        if (duration != null) {
+          audioProgress.value =
+              position.inMilliseconds / duration!.inMilliseconds;
+        }
+      });
+
+      audioPlayer.onDurationChanged.listen((Duration duration) {
+        // Handle the duration change
+        print('Audio duration: ${duration.inMilliseconds} milliseconds');
+      });
     }
   }
 
   void stopAudio() async {
     await audioPlayer.stop();
     isAudioPlaying.value = false;
+    audioProgress.value = 0.0; // Reset progress when audio stops
   }
 
   @override

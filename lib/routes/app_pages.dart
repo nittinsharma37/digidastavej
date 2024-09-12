@@ -1,3 +1,5 @@
+import 'package:digidastavej/app/bindings/bindings.dart';
+
 import '../app/views/add/add_view.dart';
 import '../app/views/detail/details_view.dart';
 import '../app/views/home/home_view.dart';
@@ -11,18 +13,20 @@ class Routes {
 
 abstract class AppPages {
   static final pages = [
-    GetPage(name: Routes.home, page: () => HomeView()
-        // binding: HomeBinding(), // Create and uncomment once HomeBinding is created
-        ),
+    GetPage(
+      name: Routes.home,
+      page: () => HomeView(),
+      binding: HomeBinding(),
+    ),
     GetPage(
       name: Routes.add,
       page: () => AddView(),
-      // binding: AddBinding(), // Create and uncomment once AddBinding is created
+      binding: AddBinding(),
     ),
     GetPage(
       name: Routes.details,
       page: () => DetailsView(),
-      // binding: DetailsBinding(), // Create and uncomment once DetailsBinding is created
+      binding: DetailsBinding(),
     ),
   ];
 }

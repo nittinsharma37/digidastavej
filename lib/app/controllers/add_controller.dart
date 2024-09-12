@@ -46,7 +46,15 @@ class AddController extends GetxController {
     final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
-        allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4', 'mov', 'avi', 'pdf']);
+        allowedExtensions: [
+          'jpg',
+          'jpeg',
+          'png',
+          'mp4',
+          'mov',
+          'avi',
+          'pdf',
+        ]);
     if (result != null) {
       filePath.value = result.files.single.path ?? '';
       _file.value = File(filePath.value);
@@ -136,6 +144,8 @@ class AddController extends GetxController {
         return 'video';
       case 'pdf':
         return 'pdf';
+      case 'xlsx':
+        return 'excel';
       case 'mp3':
       case 'wav':
       case 'aac':

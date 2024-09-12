@@ -1,3 +1,5 @@
+import 'package:digidastavej/app/utils/date_format.dart';
+
 import '../../controllers/document_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Digidastavej'),
+        centerTitle: true,
       ),
       body: Obx(() {
         if (controller.documents.isEmpty) {
@@ -79,7 +82,7 @@ class HomeView extends StatelessWidget {
                       ),
                       trailing: Text(
                         document.expiryDate != null
-                            ? 'Expires on: ${document.expiryDate}'
+                            ? 'Expires on: ${formatDate(document.expiryDate.toString())}'
                             : 'No expiry',
                         style: const TextStyle(color: Colors.red),
                       ),
