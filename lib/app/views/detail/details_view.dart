@@ -23,30 +23,33 @@ class DetailsView extends StatelessWidget {
       body: Obx(() {
         final doc = controller.document.value;
         return SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAnimatedSection(
+              _buildSectionTitle(
                 title: 'Title: ${doc.title}',
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey),
               ),
-              _buildAnimatedSection(
+              _buildSectionTitle(
                 title: 'Description: ${doc.description}',
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
+                style: const TextStyle(fontSize: 18, color: Colors.black54),
               ),
               if (doc.expiryDate != null)
-                _buildAnimatedSection(
+                _buildSectionTitle(
                   title:
                       'Expiry Date: ${formatDate(doc.expiryDate.toString())}',
-                  style: const TextStyle(fontSize: 16, color: Colors.red),
+                  style: const TextStyle(fontSize: 18, color: Colors.redAccent),
                 ),
               if (doc.filePath != null && doc.filePath!.isNotEmpty)
                 _buildFileView(doc, context)
               else
-                _buildAnimatedSection(
+                _buildSectionTitle(
                   title: 'No file selected or file path is empty',
-                  style: const TextStyle(fontSize: 16, color: Colors.redAccent),
+                  style: const TextStyle(fontSize: 18, color: Colors.redAccent),
                 ),
             ],
           ),
@@ -55,12 +58,9 @@ class DetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildAnimatedSection(
-      {required String title, required TextStyle style}) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-      padding: const EdgeInsets.all(16.0),
+  Widget _buildSectionTitle({required String title, required TextStyle style}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Text(
         title,
         style: style,
@@ -79,37 +79,44 @@ class DetailsView extends StatelessWidget {
       case 'image':
         return _buildImageView(document);
       case 'video':
-        return _buildVideoView(controller);
+        return _buildVideoView(controller, context);
       case 'audio':
         return _buildAudioView(controller);
       default:
         return const Padding(
           padding: EdgeInsets.all(16.0),
           child: Text('File type not supported',
-              style: TextStyle(color: Colors.red)),
+              style: TextStyle(color: Colors.red, fontSize: 16)),
         );
     }
   }
 
   Widget _buildPdfView(DocumentModel document, BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      height: MediaQuery.of(context).size.height * 0.7,
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16.0),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              blurRadius: 5,
+              spreadRadius: 1)
+        ],
       ),
-      child: PDFView(
-        filePath: document.filePath!,
-        autoSpacing: false,
-        enableSwipe: true,
-        swipeHorizontal: false,
-        pageSnap: false,
-        pageFling: false,
-        onRender: (pages) => debugPrint('PDF Rendered'),
-        onError: (error) => debugPrint('Error: $error'),
-        onPageError: (page, error) => debugPrint('Page error: $error'),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.7,
+        child: PDFView(
+          filePath: document.filePath!,
+          autoSpacing: false,
+          enableSwipe: true,
+          swipeHorizontal: false,
+          pageSnap: false,
+          pageFling: false,
+          onRender: (pages) => debugPrint('PDF Rendered'),
+          onError: (error) => debugPrint('Error: $error'),
+          onPageError: (page, error) => debugPrint('Page error: $error'),
+        ),
       ),
     );
   }
@@ -150,44 +157,49 @@ class DetailsView extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text('Error loading Excel file: $e',
-            style: const TextStyle(color: Colors.red)),
+            style: const TextStyle(color: Colors.red, fontSize: 16)),
       );
     }
   }
 
   Widget _buildImageView(DocumentModel document) {
-    return AnimatedOpacity(
-      duration: const Duration(milliseconds: 500),
-      opacity: 1.0,
-      child: Container(
-        margin: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Image.file(File(document.filePath!)),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              blurRadius: 5,
+              spreadRadius: 1)
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Image.file(File(document.filePath!), fit: BoxFit.cover),
       ),
     );
   }
 
-  Widget _buildVideoView(DetailsController controller) {
+  Widget _buildVideoView(DetailsController controller, BuildContext context) {
     return Obx(() {
       if (controller.isVideoInitialised.value) {
         if (controller.videoController.value.isInitialized) {
           return Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 400,
-                  height: 300,
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: Colors.grey),
                   ),
                   child: FittedBox(
-                    fit: BoxFit
-                        .contain, // Ensures the video fits inside the container
+                    fit: BoxFit.contain,
                     child: SizedBox(
                       width: controller.videoController.value.size.width,
                       height: controller.videoController.value.size.height,
@@ -199,31 +211,30 @@ class DetailsView extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 16),
                 VideoProgressIndicator(
                   controller.videoController,
                   allowScrubbing: true,
+                  colors: const VideoProgressColors(
+                    playedColor: Colors.blue,
+                    bufferedColor: Colors.grey,
+                    backgroundColor: Colors.black12,
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      icon: Icon(!controller.isVideoPlaying.value
-                          ? Icons.pause
-                          : Icons.play_arrow),
-                      onPressed: () {
-                        if (controller.videoController.value.isPlaying) {
-                          controller.videoController.pause();
-                          controller.isVideoPlaying.value = true;
-                        } else {
-                          controller.videoController.play();
-                          controller.isVideoPlaying.value = false;
-                        }
-                      },
-                    ),
-                  ],
+                const SizedBox(height: 8),
+                IconButton(
+                  icon: Icon(controller.isVideoPlaying.value
+                      ? Icons.pause
+                      : Icons.play_arrow),
+                  onPressed: () {
+                    if (controller.videoController.value.isPlaying) {
+                      controller.videoController.pause();
+                      controller.isVideoPlaying.value = true;
+                    } else {
+                      controller.videoController.play();
+                      controller.isVideoPlaying.value = false;
+                    }
+                  },
                 ),
               ],
             ),
@@ -241,7 +252,7 @@ class DetailsView extends StatelessWidget {
     return Obx(() {
       final isPlaying = controller.isAudioPlaying.value;
       return Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
             onPressed: () {
@@ -254,6 +265,7 @@ class DetailsView extends StatelessWidget {
             ),
             child: Text(isPlaying ? 'Pause Audio' : 'Play Audio'),
           ),
+          const SizedBox(height: 8),
           ElevatedButton(
             onPressed: () {
               controller.stopAudio();
@@ -265,6 +277,7 @@ class DetailsView extends StatelessWidget {
             ),
             child: const Text('Stop Audio'),
           ),
+          const SizedBox(height: 8),
           LinearProgressIndicator(
             value: isPlaying ? controller.audioProgress.value : 0,
             backgroundColor: Colors.grey[200],
