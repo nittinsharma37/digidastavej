@@ -1,5 +1,7 @@
+import 'package:digidastavej/app/controllers/document_controller.dart';
 import 'package:digidastavej/app/utils/dark_theme.dart';
 import 'package:digidastavej/app/utils/light_theme.dart';
+import 'package:get/get.dart';
 
 import 'app/data/models/document_model.dart';
 import 'routes/app_pages.dart';
@@ -16,22 +18,26 @@ void main() async {
   // Open the box to store documents
   await Hive.openBox<DocumentModel>('documents');
 
-  runApp(const DigiDastavejApp());
+  runApp(DigiDastavejApp());
 }
 
 class DigiDastavejApp extends StatelessWidget {
-  const DigiDastavejApp({super.key});
+  DigiDastavejApp({super.key});
+
+  final DocumentController controller = Get.put(DocumentController());
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Digidastavej',
-      debugShowCheckedModeBanner: false,
-      initialRoute: Routes.home,
-      getPages: AppPages.pages,
-      darkTheme: DarkTheme.theme,
-      theme: LightTheme.theme,
-      themeMode: ThemeMode.system,
-    );
+    return Obx(() {
+      return GetMaterialApp(
+        title: 'Digidastavej',
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.home,
+        getPages: AppPages.pages,
+        darkTheme: DarkTheme.theme,
+        theme: LightTheme.theme,
+        themeMode: controller.themeMode.value,
+      );
+    });
   }
 }

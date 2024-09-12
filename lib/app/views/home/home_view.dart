@@ -15,6 +15,18 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Digidastavej'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Obx(() {
+              return Icon(
+                controller.themeMode.value == ThemeMode.light
+                    ? Icons.dark_mode
+                    : Icons.light_mode,
+              );
+            }),
+            onPressed: () => controller.toggleTheme(),
+          ),
+        ],
       ),
       body: Obx(() {
         if (controller.documents.isEmpty) {
