@@ -51,6 +51,7 @@ dependencies:
   url_launcher: ^6.3.0
   video_player: ^2.9.1
   syncfusion_flutter_xlsio: ^26.2.14
+  device_preview: ^1.2.0
 
 dev_dependencies:
   flutter_test:
