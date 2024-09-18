@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:digidastavej/app/views/widgets/leading_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:digidastavej/app/utils/date_format.dart';
@@ -146,8 +147,9 @@ class HomeView extends StatelessWidget {
                           ),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(16),
-                            leading: Icon(Icons.description,
-                                color: Theme.of(context).primaryColor),
+                            leading: leadingIcon(context,
+                                docType: document.documentType!,
+                                docUrl: document.filePath!),
                             title: Text(
                               document.title,
                               style: Theme.of(context).textTheme.headlineSmall,
@@ -177,6 +179,7 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
               ),
+              const SliverPadding(padding: EdgeInsets.only(top: 80))
             ],
           ),
         );
@@ -273,8 +276,9 @@ class HomeView extends StatelessWidget {
                     elevation: 4,
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(16),
-                      leading: Icon(Icons.calendar_today,
-                          color: Theme.of(context).primaryColor),
+                      leading: leadingIcon(context,
+                          docType: document.documentType!,
+                          docUrl: document.filePath!),
                       title: Text(document.title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
