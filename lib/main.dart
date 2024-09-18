@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:digidastavej/app/controllers/document_controller.dart';
 import 'package:digidastavej/app/utils/dark_theme.dart';
 import 'package:digidastavej/app/utils/light_theme.dart';

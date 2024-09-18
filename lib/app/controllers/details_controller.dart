@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
+import 'package:chewie/chewie.dart';
 import 'package:digidastavej/app/data/models/document_model.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -11,6 +13,7 @@ class DetailsController extends GetxController {
   late VideoPlayerController videoController;
   Rx<bool> isVideoInitialised = false.obs;
   Rx<bool> isVideoPlaying = false.obs;
+  late ChewieController chewieController;
 
   final AudioPlayer audioPlayer = AudioPlayer();
   Rx<bool> isAudioPlaying = false.obs;
@@ -33,9 +36,15 @@ class DetailsController extends GetxController {
           VideoPlayerController.file(File(document.value.filePath!))
             ..initialize().then((_) {
               isVideoInitialised.value = true;
+              chewieController = ChewieController(
+                videoPlayerController: videoController,
+                aspectRatio: videoController.value.aspectRatio,
+                autoPlay: false,
+                looping: false,
+                showControls: true,
+                allowFullScreen: true,
+              );
               update();
-              isVideoPlaying.value = true;
-              // videoController.play();
             });
     }
   }
@@ -45,18 +54,15 @@ class DetailsController extends GetxController {
       await audioPlayer.play(DeviceFileSource(document.value.filePath!));
       isAudioPlaying.value = true;
 
-      // Set total duration
       audioTotalDuration.value =
           await audioPlayer.getDuration() ?? Duration.zero;
 
-      // Track the current position of the audio
       audioPlayer.onPositionChanged.listen((Duration position) {
         audioCurrentPosition.value = position;
         audioProgress.value =
             position.inMilliseconds / audioTotalDuration.value.inMilliseconds;
       });
 
-      // Reset when audio completes
       audioPlayer.onPlayerComplete.listen((_) {
         isAudioPlaying.value = false;
         audioCurrentPosition.value = Duration.zero;
@@ -82,7 +88,9 @@ class DetailsController extends GetxController {
     if (document.value.documentType == 'video') {
       videoController.dispose();
       isVideoInitialised.value = false;
+      chewieController.dispose();
     }
+
     audioPlayer.dispose();
     super.onClose();
   }

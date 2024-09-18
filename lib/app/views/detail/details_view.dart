@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:chewie/chewie.dart';
 import 'package:digidastavej/app/controllers/details_controller.dart';
 import 'package:digidastavej/app/data/models/document_model.dart';
 import 'package:digidastavej/app/utils/date_format.dart';
+import 'package:digidastavej/app/utils/format_duration.dart';
 import 'package:digidastavej/app/utils/light_theme.dart';
 import 'package:excel/excel.dart' as excelPlugin;
 import 'package:flutter/material.dart';
@@ -297,50 +299,16 @@ class DetailsView extends StatelessWidget {
                   height: 12,
                 ),
                 Container(
-                  // width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.3,
-
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey),
-                  ),
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: SizedBox(
-                      width: controller.videoController.value.size.width,
-                      height: controller.videoController.value.size.height,
-                      child: AspectRatio(
-                        aspectRatio:
-                            controller.videoController.value.aspectRatio,
-                        child: VideoPlayer(controller.videoController),
-                      ),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(width: 1, color: Colors.grey)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Chewie(
+                      controller: controller.chewieController,
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                VideoProgressIndicator(
-                  controller.videoController,
-                  allowScrubbing: true,
-                  colors: const VideoProgressColors(
-                    playedColor: Colors.blue,
-                    bufferedColor: Colors.grey,
-                    backgroundColor: Colors.black12,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                IconButton(
-                  icon: Icon(controller.isVideoPlaying.value
-                      ? Icons.pause
-                      : Icons.play_arrow),
-                  onPressed: () {
-                    if (controller.videoController.value.isPlaying) {
-                      controller.videoController.pause();
-                      controller.isVideoPlaying.value = true;
-                    } else {
-                      controller.videoController.play();
-                      controller.isVideoPlaying.value = false;
-                    }
-                  },
                 ),
               ],
             ),
@@ -359,14 +327,6 @@ class DetailsView extends StatelessWidget {
       final isPlaying = controller.isAudioPlaying.value;
       final currentPosition = controller.audioCurrentPosition.value;
       final totalDuration = controller.audioTotalDuration.value;
-
-      // Convert Duration to String (MM:SS format)
-      String formatTime(Duration duration) {
-        String twoDigits(int n) => n.toString().padLeft(2, '0');
-        final minutes = twoDigits(duration.inMinutes.remainder(60));
-        final seconds = twoDigits(duration.inSeconds.remainder(60));
-        return "$minutes:$seconds";
-      }
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
