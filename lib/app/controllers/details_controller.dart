@@ -9,13 +9,14 @@ class DetailsController extends GetxController {
       id: '', title: '', description: '', documentType: '', filePath: ''));
 
   late VideoPlayerController videoController;
-  final AudioPlayer audioPlayer = AudioPlayer();
-  Rx<bool> isAudioPlaying = false.obs;
   Rx<bool> isVideoInitialised = false.obs;
   Rx<bool> isVideoPlaying = false.obs;
 
-  // Define the audio progress property
+  final AudioPlayer audioPlayer = AudioPlayer();
+  Rx<bool> isAudioPlaying = false.obs;
   RxDouble audioProgress = 0.0.obs;
+  Rx<Duration> audioCurrentPosition = Duration.zero.obs;
+  Rx<Duration> audioTotalDuration = Duration.zero.obs;
 
   @override
   void onInit() {
@@ -40,33 +41,40 @@ class DetailsController extends GetxController {
   }
 
   void playAudio() async {
-    if (isAudioPlaying.value) {
-      await audioPlayer.stop();
-      isAudioPlaying.value = false;
-    } else {
+    if (!isAudioPlaying.value) {
       await audioPlayer.play(DeviceFileSource(document.value.filePath!));
       isAudioPlaying.value = true;
-      var duration = await audioPlayer.getDuration();
 
-      // Listen to audio player's position to update the progress
+      // Set total duration
+      audioTotalDuration.value =
+          await audioPlayer.getDuration() ?? Duration.zero;
+
+      // Track the current position of the audio
       audioPlayer.onPositionChanged.listen((Duration position) {
-        if (duration != null) {
-          audioProgress.value =
-              position.inMilliseconds / duration!.inMilliseconds;
-        }
+        audioCurrentPosition.value = position;
+        audioProgress.value =
+            position.inMilliseconds / audioTotalDuration.value.inMilliseconds;
       });
 
-      audioPlayer.onDurationChanged.listen((Duration duration) {
-        // Handle the duration change
-        print('Audio duration: ${duration.inMilliseconds} milliseconds');
+      // Reset when audio completes
+      audioPlayer.onPlayerComplete.listen((_) {
+        isAudioPlaying.value = false;
+        audioCurrentPosition.value = Duration.zero;
+        audioProgress.value = 0.0;
       });
     }
+  }
+
+  void pauseAudio() async {
+    await audioPlayer.pause();
+    isAudioPlaying.value = false;
   }
 
   void stopAudio() async {
     await audioPlayer.stop();
     isAudioPlaying.value = false;
-    audioProgress.value = 0.0; // Reset progress when audio stops
+    audioCurrentPosition.value = Duration.zero;
+    audioProgress.value = 0.0;
   }
 
   @override

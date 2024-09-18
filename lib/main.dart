@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'app/data/models/document_model.dart';
 import 'routes/app_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
@@ -21,7 +21,7 @@ void main() async {
 
   // runApp(
   //   DevicePreview(
-  //     enabled: false,
+  //     enabled: true,
   //     tools: const [
   //       ...DevicePreview.defaultTools,
   //     ],

@@ -7,7 +7,7 @@ class PermissionsService {
     final statuses = await [
       Permission.camera,
       Permission.microphone,
-      Permission.storage,
+      // Permission.storage,
     ].request();
 
     _handlePermissionStatus(statuses);
@@ -26,7 +26,7 @@ class PermissionsService {
     final statuses = await [
       Permission.camera,
       Permission.microphone,
-      Permission.storage,
+      // Permission.storage,
     ].request();
 
     return statuses;

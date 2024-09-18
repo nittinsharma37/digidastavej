@@ -54,6 +54,7 @@ class AddController extends GetxController {
           'mov',
           'avi',
           'pdf',
+          'xlsx',
         ]);
     if (result != null) {
       filePath.value = result.files.single.path ?? '';

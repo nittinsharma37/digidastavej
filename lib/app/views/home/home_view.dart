@@ -262,7 +262,8 @@ class HomeView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final document = upcomingExpirations[index];
                 return Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: 260,
+                  // width: MediaQuery.of(context).size.width * 0.7,
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   child: Card(
                     color: _getThemeBasedColor(context),
